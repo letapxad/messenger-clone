@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import BaseForm from './BaseForm'
+import BaseForm from "./BaseForm";
 import { connect } from "react-redux";
 import { login } from "./store/utils/thunkCreators";
 
@@ -21,10 +21,7 @@ const Login = (props) => {
 
   return (
     <div>
-      <BaseForm
-        isLoginForm={true}
-        handleAction={handleLogin}
-      />
+      <BaseForm isLoginForm={true} handleAction={handleLogin} />
     </div>
   );
 };

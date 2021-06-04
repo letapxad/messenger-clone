@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { register } from "./store/utils/thunkCreators";
-import BaseForm from './BaseForm'
+import BaseForm from "./BaseForm";
 
 const Login = (props) => {
   const { user, register } = props;

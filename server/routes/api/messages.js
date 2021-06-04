@@ -28,8 +28,8 @@ router.post("/", async (req, res, next) => {
       }
     }
 
-    // error on invalid target conversation
-    if (conversation.id !== conversationId){
+    // error on invalid target conversationId when provided
+    if (conversationId && conversation.id !== conversationId){
       return res.sendStatus(400)
     }
 

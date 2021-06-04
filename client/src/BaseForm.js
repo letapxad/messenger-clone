@@ -60,23 +60,23 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     width: "150px",
     height: "45px",
-    fontSize: "0.85rem"
+    fontSize: theme.typography.fontSize
   },
   btnChangeForm: {
-    color: "#3A8DFF",
-    backgroundColor: "#FFFFFF",
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.background.main,
   },
   subText: {
-    fontSize: "0.8rem",
-    color: "#a5a5a5"
+    fontSize: theme.typography.fontSize,
+    color: theme.palette.subText.main
   },
   welcomeMessage: {
-    fontSize: 22,
+    fontSize: theme.typography.prompt.fontSize,
     fontWeight: "bold"
   },
   tagLine: {
-    color: "#FFFFFF",
-    fontSize: 22,
+    color: theme.palette.background.main,
+    fontSize: theme.typography.prompt.fontSize,
     fontWeight: "light"
   },
   bubble: {

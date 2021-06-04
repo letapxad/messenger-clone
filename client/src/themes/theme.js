@@ -8,6 +8,9 @@ export const theme = createMuiTheme({
       textTransform: "none",
       letterSpacing: 0,
       fontWeight: "bold"
+    },
+    prompt: {
+      fontSize: 22
     }
   },
   overrides: {
@@ -19,6 +22,8 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: { main: "#3A8DFF" },
-    secondary: { main: "#B0B0B0" }
+    secondary: { main: "#B0B0B0" },
+    background: {main: "#FFFFFF"},
+    subText: { main: "#A5A5A5"}
   }
 });

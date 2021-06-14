@@ -29,8 +29,8 @@ router.post("/", async (req, res, next) => {
     }
 
     // error on invalid target conversationId when provided
-    if (conversationId && conversation.id !== conversationId){
-      return res.sendStatus(400)
+    if (conversationId && conversation.id !== conversationId) {
+      return res.sendStatus(400);
     }
 
     const message = await Message.create({

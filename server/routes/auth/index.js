@@ -26,7 +26,7 @@ router.post("/register", async (req, res, next) => {
       process.env.SESSION_SECRET,
       { expiresIn: 86400 }
     );
-    res.cookie('messenger-token', token, { httpOnly: true })
+    res.cookie("messenger-token", token, { httpOnly: true });
 
     res.json({
       ...user.dataValues,
@@ -65,7 +65,7 @@ router.post("/login", async (req, res, next) => {
         process.env.SESSION_SECRET,
         { expiresIn: 86400 }
       );
-      res.cookie('messenger-token', token, { httpOnly: true })
+      res.cookie("messenger-token", token, { httpOnly: true });
 
       res.json({
         ...user.dataValues,

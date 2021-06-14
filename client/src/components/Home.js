@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 import { Grid, CssBaseline, Button } from "@material-ui/core";
 import { SidebarContainer } from "./Sidebar";
 import { ActiveChat } from "./ActiveChat";
-import { logout, fetchConversations } from "../store/utils/thunkCreators";
-import { clearOnLogout } from "../store/index";
+import { fetchConversations } from "../store/utils/thunkCreators";
 
 const styles = {
   root: {
@@ -47,10 +46,6 @@ class Home extends Component {
     }
     return (
       <>
-        {/* logout button will eventually be in a dropdown next to username */}
-        <Button className={classes.logout} onClick={this.handleLogout}>
-          Logout
-        </Button>
         <Grid container component="main" className={classes.root}>
           <CssBaseline />
           <SidebarContainer />
@@ -70,10 +65,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: (id) => {
-      dispatch(logout(id));
-      dispatch(clearOnLogout());
-    },
     fetchConversations: () => {
       dispatch(fetchConversations());
     },

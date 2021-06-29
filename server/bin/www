@@ -46,10 +46,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new-message", (data) => {
-    const user = userSockets.getUserSocketId(data.recipientId);
-    if (user) {
+    const userSocketId = userSockets.getUserSocketId(data.recipientId);
+    if (userSocketId) {
       // send message only to the recipient
-      socket.to(user.socketId).emit("new-message", {
+      socket.to(userSocketId).emit("new-message", {
         message: data.message,
         sender: data.sender,
       });

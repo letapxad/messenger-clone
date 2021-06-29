@@ -1,24 +1,18 @@
 class UserSockets {
   constructor() {
-    this.users = [];
+    this.users = {};
   }
 
   userJoin(socketId, userId) {
-    const user = { socketId, userId };
-    this.users.push(user);
-    return user;
+    this.users[userId] = socketId;
   }
 
   getUserSocketId(userId) {
-    return this.users.find((user) => user.userId === userId);
+    return this.users[userId];
   }
 
   removeUserSocketId(userId) {
-    const user = this.users.find((user) => user.userId === userId);
-    const index = this.users.indexOf(user);
-    if (index > -1) {
-      this.users.splice(index, 1);
-    }
+    delete this.users[userId];
   }
 }
 

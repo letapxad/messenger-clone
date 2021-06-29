@@ -11,7 +11,8 @@ const { app, sessionStore } = require("../app");
 const http = require("http");
 const db = require("../db");
 const onlineUsers = require("../onlineUsers");
-const { getUserSocketId, removeUserSocketId, userJoin } = require("../users");
+const UserSockets = require("../userSockets");
+
 
 /**
  * Get port from environment and store in Express.
@@ -31,6 +32,7 @@ const server = http.createServer(app);
  */
 
 const io = require("socket.io")(server);
+const userSockets = new UserSockets();
 
 io.on("connection", (socket) => {
   socket.on("go-online", (id) => {
@@ -38,13 +40,13 @@ io.on("connection", (socket) => {
       onlineUsers.push(id);
     }
     // track individual sockets
-    userJoin(socket.id, id);
+    userSockets.userJoin(socket.id, id);
     // send the user who just went online to everyone else who is already online
     socket.broadcast.emit("add-online-user", id);
   });
 
   socket.on("new-message", (data) => {
-    const user = getUserSocketId(data.recipientId);
+    const user = userSockets.getUserSocketId(data.recipientId);
     if (user) {
       // send message only to the recipient
       socket.to(user.socketId).emit("new-message", {
@@ -58,7 +60,7 @@ io.on("connection", (socket) => {
     if (onlineUsers.includes(id)) {
       userIndex = onlineUsers.indexOf(id);
       onlineUsers.splice(userIndex, 1);
-      removeUserSocketId(id);
+      userSockets.removeUserSocketId(id);
       socket.broadcast.emit("remove-offline-user", id);
     }
   });

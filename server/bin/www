@@ -10,8 +10,7 @@ require("dotenv").config();
 const { app, sessionStore } = require("../app");
 const http = require("http");
 const db = require("../db");
-const onlineUsers = require("../onlineUsers");
-const UserSockets = require("../userSockets");
+const userSockets = require("../userSockets");
 
 
 /**
@@ -32,15 +31,14 @@ const server = http.createServer(app);
  */
 
 const io = require("socket.io")(server);
-const userSockets = new UserSockets();
 
 io.on("connection", (socket) => {
   socket.on("go-online", (id) => {
-    if (!onlineUsers.includes(id)) {
-      onlineUsers.push(id);
+    if (!userSockets.includes(id)) {
+      // track individual sockets
+      userSockets.userJoin(socket.id, id);
     }
-    // track individual sockets
-    userSockets.userJoin(socket.id, id);
+
     // send the user who just went online to everyone else who is already online
     socket.broadcast.emit("add-online-user", id);
   });
@@ -57,12 +55,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("logout", (id) => {
-    if (onlineUsers.includes(id)) {
-      userIndex = onlineUsers.indexOf(id);
-      onlineUsers.splice(userIndex, 1);
-      userSockets.removeUserSocketId(id);
-      socket.broadcast.emit("remove-offline-user", id);
-    }
+    userSockets.removeUserSocketId(id);
+    socket.broadcast.emit("remove-offline-user", id);
   });
 });
 

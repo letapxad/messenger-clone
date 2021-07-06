@@ -14,6 +14,11 @@ class UserSockets {
   removeUserSocketId(userId) {
     delete this.users[userId];
   }
+
+  includes(userId) {
+    return this.users.hasOwnProperty(userId);
+  }
 }
 
-module.exports = UserSockets;
+const userSockets = new UserSockets();
+module.exports = userSockets;

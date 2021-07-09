@@ -5,6 +5,7 @@ import {
   addConversation,
   setNewMessage,
   setSearchedUsers,
+  messagesRead,
 } from "../conversations";
 import { gotUser, setFetchingStatus } from "../user";
 
@@ -54,6 +55,16 @@ export const logout = (id) => async (dispatch) => {
     socket.emit("logout", id);
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const readMessages = (body) => async (dispatch) => {
+  try {
+    const { data } = await axios.patch("/api/messages/read", body);
+    dispatch(messagesRead(data));
+  } catch (error) {
+    console.error(error);
+    // dispatch(gotUser({ error: error.response.data.error || "Server Error" }));
   }
 };
 

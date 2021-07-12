@@ -50,7 +50,6 @@ router.patch("/read", async (req, res, next) => {
       return res.sendStatus(401);
     }
     const senderId = req.user.id;
-    console.log(req.body);
     const { recipientId, conversationId } = req.body;
 
     // find a conversation based on sender and recipient, in case it already exist
@@ -65,10 +64,10 @@ router.patch("/read", async (req, res, next) => {
     }
 
     await Message.update(
-      { read: false },
+      { read: true },
       {
         where: {
-          read: true,
+          read: false,
           conversationId: conversationId,
           senderId: recipientId,
         },

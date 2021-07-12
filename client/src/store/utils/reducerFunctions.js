@@ -100,3 +100,19 @@ export const addNewConvoToStore = (state, recipientId, message) => {
     }
   });
 };
+
+export const prepareConversations = (conversations) => {
+  conversations.forEach((convo) => {
+    convo.unreadCount = convo.messages.filter(
+      (e) => e.read === false && e.senderId === convo.otherUser.id
+    ).length;
+    // flag last read message
+    for(let i = convo.messages.length - 1; i >= 0; i--){
+      if(convo.messages[i].read === true && convo.messages[i].senderId !== convo.otherUser.id){
+        convo.messages[i].isLastRead = true;
+        break;
+      }
+    }
+  });
+  return conversations;
+}

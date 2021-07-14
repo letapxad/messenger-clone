@@ -6,6 +6,7 @@ import {
   addMessageToStore,
   resetUnreadCountInStore,
   prepareConversations,
+  updateLastReadInStore
 } from "./utils/reducerFunctions";
 
 // ACTIONS
@@ -18,6 +19,7 @@ const SET_SEARCHED_USERS = "SET_SEARCHED_USERS";
 const CLEAR_SEARCHED_USERS = "CLEAR_SEARCHED_USERS";
 const ADD_CONVERSATION = "ADD_CONVERSATION";
 const READ_MESSAGES = "READ_MESSAGES";
+const UPDATE_LAST_READ = "UPDATE_LAST_READ";
 
 // ACTION CREATORS
 
@@ -69,6 +71,13 @@ export const messagesRead = (data) => {
   };
 };
 
+export const updateLastRead = (conversationId, lastReadMessage, recipientId) => {
+  return {
+    type: UPDATE_LAST_READ,
+    payload: { conversationId, lastReadMessage, recipientId },
+  };
+};
+
 // add new conversation when sending a new message
 export const addConversation = (recipientId, newMessage) => {
   return {
@@ -96,7 +105,9 @@ const reducer = (state = [], action) => {
     case CLEAR_SEARCHED_USERS:
       return state.filter((convo) => convo.id);
     case READ_MESSAGES:
-      return resetUnreadCountInStore(state, action.payload)
+      return resetUnreadCountInStore(state, action.payload);
+    case UPDATE_LAST_READ:
+      return updateLastReadInStore(state, action.payload);
     case ADD_CONVERSATION:
       return addNewConvoToStore(
         state,

@@ -74,7 +74,15 @@ router.patch("/read", async (req, res, next) => {
       }
     );
 
-    res.json({ conversationId: conversationId });
+    const lastReadMessage = await Message.findOne({
+      where: {
+        conversationId: conversationId,
+        senderId: recipientId,
+      },
+      order: [ [ 'createdAt', 'DESC' ]],
+    });
+
+    res.json({ conversationId, lastReadMessage, recipientId });
   } catch (error) {
     next(error);
   }

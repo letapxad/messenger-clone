@@ -116,3 +116,26 @@ export const prepareConversations = (conversations) => {
   });
   return conversations;
 }
+
+
+export const updateLastReadInStore = (state, payload) => {
+  const { conversationId, lastReadMessage, recipientId } = payload;
+  
+  return state.map((convo) => {
+    if (convo.id === conversationId) {
+      const convoCopy = { ...convo };
+      convoCopy.messages.forEach((message) => {
+        message.read = true
+        if (message.id === lastReadMessage.id) {
+          message.isLastRead = true;
+        } else {
+          message.isLastRead = false;
+        }
+      })
+
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  });
+};

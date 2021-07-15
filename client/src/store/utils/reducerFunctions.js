@@ -8,7 +8,7 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessageText = message.text;
-    newConvo.unreadCount += 1
+    newConvo.unreadCount += 1;
     return [newConvo, ...state];
   }
 
@@ -17,8 +17,8 @@ export const addMessageToStore = (state, payload) => {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
-      if (message.senderId === convoCopy.otherUser.id ){
-        convoCopy.unreadCount += 1
+      if (message.senderId === convoCopy.otherUser.id) {
+        convoCopy.unreadCount += 1;
       }
 
       return convoCopy;
@@ -78,7 +78,7 @@ export const resetUnreadCountInStore = (state, payload) => {
   return state.map((convo) => {
     if (convo.id === conversationId) {
       const convoCopy = { ...convo };
-      convoCopy.unreadCount = 0
+      convoCopy.unreadCount = 0;
 
       return convoCopy;
     } else {
@@ -107,31 +107,33 @@ export const prepareConversations = (conversations) => {
       (e) => e.read === false && e.senderId === convo.otherUser.id
     ).length;
     // flag last read message
-    for(let i = convo.messages.length - 1; i >= 0; i--){
-      if(convo.messages[i].read === true && convo.messages[i].senderId !== convo.otherUser.id){
+    for (let i = convo.messages.length - 1; i >= 0; i--) {
+      if (
+        convo.messages[i].read === true &&
+        convo.messages[i].senderId !== convo.otherUser.id
+      ) {
         convo.messages[i].isLastRead = true;
         break;
       }
     }
   });
   return conversations;
-}
-
+};
 
 export const updateLastReadInStore = (state, payload) => {
-  const { conversationId, lastReadMessage, recipientId } = payload;
-  
+  const { conversationId, lastReadMessage } = payload;
+
   return state.map((convo) => {
     if (convo.id === conversationId) {
       const convoCopy = { ...convo };
       convoCopy.messages.forEach((message) => {
-        message.read = true
-        if (message.id === lastReadMessage.id) {
+        message.read = true;
+        if (lastReadMessage && message.id === lastReadMessage.id) {
           message.isLastRead = true;
         } else {
           message.isLastRead = false;
         }
-      })
+      });
 
       return convoCopy;
     } else {

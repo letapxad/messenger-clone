@@ -6,7 +6,7 @@ import {
   addMessageToStore,
   resetUnreadCountInStore,
   prepareConversations,
-  updateLastReadInStore
+  updateLastReadInStore,
 } from "./utils/reducerFunctions";
 
 // ACTIONS
@@ -71,7 +71,11 @@ export const messagesRead = (data) => {
   };
 };
 
-export const updateLastRead = (conversationId, lastReadMessage, recipientId) => {
+export const updateLastRead = (
+  conversationId,
+  lastReadMessage,
+  recipientId
+) => {
   return {
     type: UPDATE_LAST_READ,
     payload: { conversationId, lastReadMessage, recipientId },

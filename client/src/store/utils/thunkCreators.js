@@ -58,7 +58,6 @@ export const logout = (id) => async (dispatch) => {
   }
 };
 
-
 // CONVERSATIONS THUNK CREATORS
 
 export const fetchConversations = () => async (dispatch) => {
@@ -100,7 +99,6 @@ export const postMessage = (body) => async (dispatch) => {
     console.error(error);
   }
 };
-
 
 const sendLastRead = (data) => {
   socket.emit("message-read", {

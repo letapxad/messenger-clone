@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     marginLeft: 20,
     flexGrow: 1,
-    alignContent: "space-around"
+    alignContent: "space-around",
   },
   username: {
     fontWeight: "bold",
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     color: "#000000",
     letterSpacing: -0.17,
-    fontWeight: "bolder"
+    fontWeight: "bolder",
   },
   notification: {
     height: 20,
@@ -60,10 +60,18 @@ const ChatContent = (props) => {
           {otherUser.username}
         </Typography>
         <Box className={classes.content}>
-          <Typography className={unreadCount > 0 ? classes.boldPreviewText : classes.previewText}>
+          <Typography
+            className={
+              unreadCount > 0 ? classes.boldPreviewText : classes.previewText
+            }
+          >
             {latestMessageText}
           </Typography>
-          {unreadCount > 0 && <Typography className={classes.notification}>{unreadCount}</Typography>}
+          {unreadCount > 0 && (
+            <Typography className={classes.notification}>
+              {unreadCount}
+            </Typography>
+          )}
         </Box>
       </Box>
     </Box>

@@ -79,7 +79,7 @@ router.patch("/read", async (req, res, next) => {
         conversationId: conversationId,
         senderId: recipientId,
       },
-      order: [ [ 'createdAt', 'DESC' ]],
+      order: [["createdAt", "DESC"]],
     });
 
     res.json({ conversationId, lastReadMessage, recipientId });

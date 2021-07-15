@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
   avatar: {
     height: "20px",
     width: "20px",
-  }
+  },
 }));
 
 const SenderBubble = (props) => {
@@ -38,14 +38,15 @@ const SenderBubble = (props) => {
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
       <Box className={classes.bubble}>
-        <Typography className={classes.text}>{text}
-        </Typography>
+        <Typography className={classes.text}>{text}</Typography>
       </Box>
-      {isLastRead && <Avatar
-        alt={otherUser.username}
-        src={otherUser.photoUrl}
-        className={classes.avatar}
-      ></Avatar>}
+      {isLastRead && (
+        <Avatar
+          alt={otherUser.username}
+          src={otherUser.photoUrl}
+          className={classes.avatar}
+        ></Avatar>
+      )}
     </Box>
   );
 };

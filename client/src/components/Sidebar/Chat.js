@@ -25,9 +25,11 @@ class Chat extends Component {
     await this.props.setActiveChat(conversation.otherUser.username);
     const reqBody = {
       recipientId: conversation.otherUser.id,
-      conversationId: conversation.id
+      conversationId: conversation.id,
     };
-    await this.props.readMessages(reqBody);
+    if (this.props.conversation.unreadCount > 0) {
+      this.props.readMessages(reqBody);
+    }
   };
 
   render() {
@@ -57,7 +59,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     readMessages: (conversation) => {
       dispatch(readMessages(conversation));
-    }
+    },
   };
 };
 

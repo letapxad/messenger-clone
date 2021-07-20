@@ -19,7 +19,7 @@ app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(join(__dirname, "public")));
+app.use(express.static(join(__dirname, "build")));
 
 app.use(function (req, res, next) {
   const token = req.cookies["messenger-token"];
@@ -38,6 +38,10 @@ app.use(function (req, res, next) {
   } else {
     return next();
   }
+});
+
+app.get('/', function(req, res){
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // require api routes here after I create them

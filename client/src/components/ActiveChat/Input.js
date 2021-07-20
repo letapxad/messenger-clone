@@ -46,7 +46,6 @@ class Input extends Component {
         text: "",
       });
     }
-
   };
 
   render() {

@@ -44,4 +44,47 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.patch("/read", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+    const senderId = req.user.id;
+    const { recipientId, conversationId } = req.body;
+
+    // find a conversation based on sender and recipient, in case it already exist
+    let conversation = await Conversation.findConversation(
+      senderId,
+      recipientId
+    );
+
+    // error on invalid target conversationId when provided
+    if (conversationId && conversation.id !== conversationId) {
+      return res.sendStatus(400);
+    }
+
+    await Message.update(
+      { read: true },
+      {
+        where: {
+          read: false,
+          conversationId: conversationId,
+          senderId: recipientId,
+        },
+      }
+    );
+
+    const lastReadMessage = await Message.findOne({
+      where: {
+        conversationId: conversationId,
+        senderId: recipientId,
+      },
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json({ conversationId, lastReadMessage, recipientId });
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

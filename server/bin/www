@@ -54,6 +54,18 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("message-read", (data) => {
+    const userSocketId = userSockets.getUserSocketId(data.recipientId);
+    if (userSocketId) {
+      // send message only to the recipient
+      socket.to(userSocketId).emit("message-read", {
+        conversationId: data.conversationId,
+        recipientId: data.recipientId,
+        lastReadMessage: data.lastReadMessage
+      });
+    }
+  });
+
   socket.on("logout", (id) => {
     userSockets.removeUserSocketId(id);
     socket.broadcast.emit("remove-offline-user", id);

@@ -8,6 +8,7 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessageText = message.text;
+    newConvo.unreadCount += 1;
     return [newConvo, ...state];
   }
 
@@ -16,6 +17,9 @@ export const addMessageToStore = (state, payload) => {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
+      if (message.senderId === convoCopy.otherUser.id) {
+        convoCopy.unreadCount += 1;
+      }
 
       return convoCopy;
     } else {
@@ -68,6 +72,21 @@ export const addSearchedUsersToStore = (state, users) => {
   return newState;
 };
 
+export const resetUnreadCountInStore = (state, payload) => {
+  const { conversationId } = payload;
+
+  return state.map((convo) => {
+    if (convo.id === conversationId) {
+      const convoCopy = { ...convo };
+      convoCopy.unreadCount = 0;
+
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  });
+};
+
 export const addNewConvoToStore = (state, recipientId, message) => {
   return state.map((convo) => {
     if (convo.otherUser.id === recipientId) {
@@ -76,6 +95,47 @@ export const addNewConvoToStore = (state, recipientId, message) => {
       newConvo.messages.push(message);
       newConvo.latestMessageText = message.text;
       return newConvo;
+    } else {
+      return convo;
+    }
+  });
+};
+
+export const prepareConversations = (conversations) => {
+  conversations.forEach((convo) => {
+    convo.unreadCount = convo.messages.filter(
+      (e) => e.read === false && e.senderId === convo.otherUser.id
+    ).length;
+    // flag last read message
+    for (let i = convo.messages.length - 1; i >= 0; i--) {
+      if (
+        convo.messages[i].read === true &&
+        convo.messages[i].senderId !== convo.otherUser.id
+      ) {
+        convo.messages[i].isLastRead = true;
+        break;
+      }
+    }
+  });
+  return conversations;
+};
+
+export const updateLastReadInStore = (state, payload) => {
+  const { conversationId, lastReadMessage } = payload;
+
+  return state.map((convo) => {
+    if (convo.id === conversationId) {
+      const convoCopy = { ...convo, messages: [...convo.messages] };
+      convoCopy.messages.forEach((message) => {
+        message.read = true;
+        if (lastReadMessage && message.id === lastReadMessage.id) {
+          message.isLastRead = true;
+        } else {
+          message.isLastRead = false;
+        }
+      });
+
+      return convoCopy;
     } else {
       return convo;
     }

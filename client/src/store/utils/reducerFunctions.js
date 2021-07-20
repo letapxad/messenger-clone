@@ -125,7 +125,7 @@ export const updateLastReadInStore = (state, payload) => {
 
   return state.map((convo) => {
     if (convo.id === conversationId) {
-      const convoCopy = { ...convo };
+      const convoCopy = { ...convo, messages: [...convo.messages] };
       convoCopy.messages.forEach((message) => {
         message.read = true;
         if (lastReadMessage && message.id === lastReadMessage.id) {
